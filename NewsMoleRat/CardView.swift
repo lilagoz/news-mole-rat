@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CardView.swift
 //  NewsMoleRat
 //
 //  Created by Kiacz Gabor on 2023. 09. 12..
@@ -7,20 +7,21 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CardView: View {
+    let article: Article
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            Text(article.title!)
         }
-        .padding()
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CardView(article: Article())
     }
 }
