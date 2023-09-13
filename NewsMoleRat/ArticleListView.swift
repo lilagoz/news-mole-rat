@@ -19,30 +19,35 @@ struct ArticleListView: View {
     
     var body: some View {
         VStack{
-            HStack {
-                TextField("Search...", text: $searchString)
-                    .padding(5.0)
-                    .border(Color.gray)
-                    .onSubmit {
-                        Task{
-                            await viewModel.search(searchString: searchString)
-                        }
-                    }
-            }
-            .padding(.horizontal, 10)
-            
-            if let articles = viewModel.articles {
                 NavigationStack{
-                    List(articles, id: \.id) { article in
-                        NavigationLink(destination: ArticleDetails(article: article)) {
-                            CardView(article: article)
-                        }
+                    HStack {
+                        TextField("Search...", text: $searchString)
+                            .padding(5.0)
+                            .border(Color.gray)
+                            .onSubmit {
+                                Task{
+                                    await viewModel.search(searchString:  searchString)
+                                }
+                            }
                     }
-                }
-            } else {
-                Text("Loading...")
+                    .padding(.horizontal, 10)
+
+                    if let articles = viewModel.articles {
+                        List(articles, id: \.id) { article in
+                            NavigationLink(destination: ArticleDetails(article: article)) {
+                                CardView(article: article)
+                                    .padding(10)
+                            }
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
+                        }
+                        .scrollContentBackground(.hidden)
+                    } else {
+                        Text("Loading...")
+                    }
+                    Spacer()
             }
-            Spacer()
+            
         }
         .task {
             await viewModel.start()
