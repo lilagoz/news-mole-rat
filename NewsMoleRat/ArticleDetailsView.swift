@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ArticleDetails: View {
+struct ArticleDetailsView: View {
     let article: Article
     var imageView: UIImageView!
     
@@ -82,10 +82,10 @@ struct ArticleDetails: View {
     }
 }
 
-struct ArticleDetails_Previews: PreviewProvider {
+struct ArticleDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ArticleDetails(article: Article(title: "Macska kutya denevér", description: nil, sourceName: "Allatkert info", content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png"))
+            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: "Allatkert info", content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png"))
         }
     }
 }

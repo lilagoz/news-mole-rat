@@ -11,7 +11,7 @@ import SwiftUI
 struct NewsMoleRatApp: App {
     var body: some Scene {
         WindowGroup {
-            ArticleListView(viewModel: .init())
+            ArticleListView(articlesModel: .init())
         }
     }
 }

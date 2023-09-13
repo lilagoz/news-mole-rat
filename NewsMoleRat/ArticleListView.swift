@@ -8,33 +8,28 @@
 import SwiftUI
 
 struct ArticleListView: View {
-//    @State var articles: [Article]
     @State var searchString: String = ""
-    @ObservedObject var viewModel: ContentViewModel
-    
-    
-    func doSomethingStrange() {
-        print("doSomethingStrange")
-    }
+    @ObservedObject var articlesModel: ArticlesModel
     
     var body: some View {
         VStack{
-                NavigationStack{
+            NavigationStack{
+                VStack{
                     HStack {
                         TextField("Search...", text: $searchString)
                             .padding(5.0)
                             .border(Color.gray)
                             .onSubmit {
                                 Task{
-                                    await viewModel.search(searchString:  searchString)
+                                    await articlesModel.search(searchString:  searchString)
                                 }
                             }
                     }
                     .padding(.horizontal, 10)
-
-                    if let articles = viewModel.articles {
+                    
+                    if let articles = articlesModel.articles {
                         List(articles, id: \.id) { article in
-                            NavigationLink(destination: ArticleDetails(article: article)) {
+                            NavigationLink(destination: ArticleDetailsView(article: article)) {
                                 CardView(article: article)
                                     .padding(10)
                             }
@@ -46,25 +41,25 @@ struct ArticleListView: View {
                         Text("Loading...")
                     }
                     Spacer()
+                    
+                }
+                
+                .toolbar {
+                    NavigationLink(destination: SettingsView()) {
+                        Image(systemName: "gearshape")
+                    }
+                }
             }
             
         }
         .task {
-            await viewModel.start()
+            await articlesModel.start()
         }
-//        .toolbar {
-//            Button(action: doSomethingStrange) {
-//                Image(systemName: "plus")
-//            }
-//        }
-            
-        
-
     }
 }
 
 struct ArticleListView_Previews: PreviewProvider {
     static var previews: some View {
-        ArticleListView(viewModel: .init())
+        ArticleListView(articlesModel: .init())
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 @MainActor
-final class ContentViewModel: ObservableObject {
+final class ArticlesModel: ObservableObject {
     @Published var articles: [Article]?
     
     func start() async {
