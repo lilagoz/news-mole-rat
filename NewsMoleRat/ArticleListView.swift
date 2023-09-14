@@ -18,7 +18,10 @@ struct ArticleListView: View {
                     HStack {
                         TextField("Search...", text: $searchString)
                             .padding(5.0)
-                            .border(Color.gray)
+//                            .border(Color.gray)
+                            .background(Color.white.opacity(0.7))
+                            .cornerRadius(10)
+                            .frame(height:40)
                             .onSubmit {
                                 Task{
                                     await articlesModel.search(searchString:  searchString)
@@ -35,6 +38,7 @@ struct ArticleListView: View {
                             }
                             .listRowSeparator(.hidden)
                             .listRowInsets(EdgeInsets())
+                            .background(article.color.opacity(0.2))
                         }
                         .scrollContentBackground(.hidden)
                         
@@ -44,16 +48,18 @@ struct ArticleListView: View {
                     Spacer()
                     
                 }
-                
                 .toolbar {
                     NavigationLink(destination: SettingsView()) {
                         Image(systemName: "gearshape")
                     }
                 }
+//                .task {
+//                    //use only for preview
+//                    await articlesModel.start()
+//                }
+                .background(AngularGradient(gradient: Gradient(colors:[Color.red,Color.green,Color.blue,Color.green,Color.red ]), center: .center).opacity(0.5))
             }
-            
         }
-
     }
 }
 

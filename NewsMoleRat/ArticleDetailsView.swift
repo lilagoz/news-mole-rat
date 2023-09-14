@@ -11,6 +11,8 @@ struct ArticleDetailsView: View {
     let article: Article
     var imageView: UIImageView!
     
+
+    
     var body: some View {
         VStack {
             ZStack {
@@ -21,13 +23,13 @@ struct ArticleDetailsView: View {
                         } else if phase.error != nil {
                             Rectangle()
                                 .fill(
-                                    LinearGradient(gradient: Gradient(colors: [.green, .white]), startPoint: .top, endPoint: .bottom)
+                                    LinearGradient(gradient: Gradient(colors: [.red, .white]), startPoint: .top, endPoint: .bottom)
                                 )
                         } else {
                             ZStack {
                                 Rectangle()
                                     .fill(
-                                        LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [article.color, .white]), startPoint: .top, endPoint: .bottom)
                                     )
                                 ProgressView()
                             }
@@ -38,7 +40,7 @@ struct ArticleDetailsView: View {
                 else {
                     Rectangle()
                         .fill(
-                            LinearGradient(gradient: Gradient(colors: [.purple, .white]), startPoint: .top, endPoint: .bottom)
+                            LinearGradient(gradient: Gradient(colors: [article.color, .white]), startPoint: .top, endPoint: .bottom)
                         ).aspectRatio(contentMode: .fit)
                 }
                 if let title = article.title {
@@ -49,26 +51,35 @@ struct ArticleDetailsView: View {
                         .shadow(color: Color.black, radius: 10)
                 }
             }
-            VStack{
-                HStack {
-                    Text(article.source?.name ?? "")
-                        .fontWeight(.thin)
-                    Spacer()
-                    Text(article.publishedAt ?? "")
-                        .fontWeight(.thin)
-                }.padding(.bottom, 5)
-                
-                
-                Text(article.content ?? article.description ?? "")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                if let url = article.url {
-                    Link(destination: URL(string: url)!) {
-                        Text("more...").padding()
+            ZStack {
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [.white, article.color]), startPoint: .top, endPoint: .bottom)).opacity(0.5)
+                VStack{
+                    HStack {
+                        Text(article.source?.name ?? "")
+                            .fontWeight(.thin)
+                        Spacer()
+                        Text(article.publishedAt ?? "")
+                            .fontWeight(.thin)
+                    }.padding(.bottom, 5)
+                    
+                    
+                    Text(article.content ?? article.description ?? "")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 50)
+                    
+                    if let url = article.url {
+                        Link(destination: URL(string: url)!) {
+                            Image(systemName: "safari")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            Text("read more...").padding()
+                            
+                        }
                     }
-                }
-            }.padding()
-            Spacer()
+                    Spacer()
+                }.padding()
+            }
         }.ignoresSafeArea()
     }
 }
@@ -76,7 +87,7 @@ struct ArticleDetailsView: View {
 struct ArticleDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: nil))
+            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: nil, url: "https://mokuscickany.hu"))
         }
     }
 }
