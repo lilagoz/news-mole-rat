@@ -14,62 +14,53 @@ struct ArticleDetailsView: View {
     var body: some View {
         VStack {
             ZStack {
-                
                 if let urlToImage = article.urlToImage {
-                    //TODO: fallback image as rectangle
-                    AsyncImage(
-                        url: URL(string: urlToImage),
-                        content: { image in
-                            image.image?
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                    AsyncImage(url: URL(string: urlToImage)) { phase in
+                        if let image = phase.image {
+                            image.resizable()
+                        } else if phase.error != nil {
+                            Rectangle()
+                                .fill(
+                                    LinearGradient(gradient: Gradient(colors: [.green, .white]), startPoint: .top, endPoint: .bottom)
+                                )
+                        } else {
+                            ZStack {
+                                Rectangle()
+                                    .fill(
+                                        LinearGradient(gradient: Gradient(colors: [.blue, .white]), startPoint: .top, endPoint: .bottom)
+                                    )
+                                ProgressView()
+                            }
                         }
-                    )
+                    }
+                    .aspectRatio(contentMode: .fit)
                 }
                 else {
                     Rectangle()
-                        
-                        .frame(width: .infinity, height: 100)
-                        
+                        .fill(
+                            LinearGradient(gradient: Gradient(colors: [.purple, .white]), startPoint: .top, endPoint: .bottom)
+                        ).aspectRatio(contentMode: .fit)
                 }
-                VStack {
-                    if let title = article.title {
-                        Text(title)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .shadow(color: Color.black, radius: 10)
-                    }
+                if let title = article.title {
+                    Text(title)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                        .shadow(color: Color.black, radius: 10)
                 }
             }
             VStack{
                 HStack {
-                    if let sourceName = article.source?.name {
-                        Text(sourceName)
-                            .fontWeight(.thin)
-                    } else {
-                        Text("someone")
-                            .fontWeight(.thin)
-                    }
+                    Text(article.source?.name ?? "")
+                        .fontWeight(.thin)
                     Spacer()
-                    if let publishedAt = article.publishedAt {
-                        Text(publishedAt)
-                            .fontWeight(.thin)
-                    } else {
-                        Text("sometime")
-                            .fontWeight(.thin)
-                    }
+                    Text(article.publishedAt ?? "")
+                        .fontWeight(.thin)
                 }.padding(.bottom, 5)
                 
-                if let content = article.content {
-                    Text(content)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                } else {
-                    if let description = article.description {
-                        Text(description)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                }
+                
+                Text(article.content ?? article.description ?? "")
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if let url = article.url {
                     Link(destination: URL(string: url)!) {
@@ -85,7 +76,7 @@ struct ArticleDetailsView: View {
 struct ArticleDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: "Allatkert info", content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png"))
+            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: nil))
         }
     }
 }

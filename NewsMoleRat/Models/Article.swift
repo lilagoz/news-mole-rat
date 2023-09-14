@@ -29,7 +29,7 @@ struct Article: Identifiable, Decodable {
     init() {
     }
     
-    init(title: String, description: String?, sourceName: String, content: String?, urlToImage: String?) {
+    init(title: String?, description: String?, sourceName: String?, content: String?, urlToImage: String?) {
         self.title = title
         self.description = description
         self.source = Source(name: sourceName)
