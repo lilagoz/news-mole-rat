@@ -52,9 +52,7 @@ struct ArticleListView: View {
             }
             
         }
-        .task {
-            await articlesModel.start()
-        }
+
     }
 }
 
