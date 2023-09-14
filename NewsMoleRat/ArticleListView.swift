@@ -37,8 +37,9 @@ struct ArticleListView: View {
                             .listRowInsets(EdgeInsets())
                         }
                         .scrollContentBackground(.hidden)
+                        
                     } else {
-                        Text("Loading...")
+                        ProgressView()
                     }
                     Spacer()
                     
