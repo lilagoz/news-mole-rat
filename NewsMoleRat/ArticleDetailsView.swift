@@ -11,73 +11,75 @@ struct ArticleDetailsView: View {
     let article: Article
     var imageView: UIImageView!
     
+
+    
     var body: some View {
         VStack {
             ZStack {
-                
                 if let urlToImage = article.urlToImage {
-                    //TODO: fallback image as rectangle
-                    AsyncImage(
-                        url: URL(string: urlToImage),
-                        content: { image in
-                            image.image?
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                    AsyncImage(url: URL(string: urlToImage)) { phase in
+                        if let image = phase.image {
+                            image.resizable()
+                        } else if phase.error != nil {
+                            Rectangle()
+                                .fill(
+                                    LinearGradient(gradient: Gradient(colors: [.red, .white]), startPoint: .top, endPoint: .bottom)
+                                )
+                        } else {
+                            ZStack {
+                                Rectangle()
+                                    .fill(
+                                        LinearGradient(gradient: Gradient(colors: [article.color, .white]), startPoint: .top, endPoint: .bottom)
+                                    )
+                                ProgressView()
+                            }
                         }
-                    )
+                    }
+                    .aspectRatio(contentMode: .fit)
                 }
                 else {
                     Rectangle()
-                        
-                        .frame(width: .infinity, height: 100)
-                        
+                        .fill(
+                            LinearGradient(gradient: Gradient(colors: [article.color, .white]), startPoint: .top, endPoint: .bottom)
+                        ).aspectRatio(contentMode: .fit)
                 }
-                VStack {
-                    if let title = article.title {
-                        Text(title)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .shadow(color: Color.black, radius: 10)
-                    }
+                if let title = article.title {
+                    Text(title)
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                        .shadow(color: Color.black, radius: 10)
                 }
             }
-            VStack{
-                HStack {
-                    if let sourceName = article.source?.name {
-                        Text(sourceName)
+            ZStack {
+                Rectangle()
+                    .fill(LinearGradient(gradient: Gradient(colors: [.white, article.color]), startPoint: .top, endPoint: .bottom)).opacity(0.5)
+                VStack{
+                    HStack {
+                        Text(article.source?.name ?? "")
                             .fontWeight(.thin)
-                    } else {
-                        Text("someone")
+                        Spacer()
+                        Text(article.publishedAt ?? "")
                             .fontWeight(.thin)
+                    }.padding(.bottom, 5)
+                    
+                    
+                    Text(article.content ?? article.description ?? "")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 50)
+                    
+                    if let url = article.url {
+                        Link(destination: URL(string: url)!) {
+                            Image(systemName: "safari")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                            Text("read more...").padding()
+                            
+                        }
                     }
                     Spacer()
-                    if let publishedAt = article.publishedAt {
-                        Text(publishedAt)
-                            .fontWeight(.thin)
-                    } else {
-                        Text("sometime")
-                            .fontWeight(.thin)
-                    }
-                }.padding(.bottom, 5)
-                
-                if let content = article.content {
-                    Text(content)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                } else {
-                    if let description = article.description {
-                        Text(description)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                }
-                
-                if let url = article.url {
-                    Link(destination: URL(string: url)!) {
-                        Text("more...").padding()
-                    }
-                }
-            }.padding()
-            Spacer()
+                }.padding()
+            }
         }.ignoresSafeArea()
     }
 }
@@ -85,7 +87,7 @@ struct ArticleDetailsView: View {
 struct ArticleDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: "Allatkert info", content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png"))
+            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: nil, url: "https://mokuscickany.hu"))
         }
     }
 }

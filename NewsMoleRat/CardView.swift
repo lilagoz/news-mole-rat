@@ -31,15 +31,14 @@ struct CardView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .fontWeight(.thin)
                 }
-                Spacer()
             }
+            .padding(.vertical, 10.0)
         }
-        .padding(.vertical, 10.0)
     }
 }
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(article: Article(title: "Macska kutya denevér", description: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", sourceName: "Allatkert info", content: nil, urlToImage: nil))
+        CardView(article: Article(title: "Macska kutya denevér", description: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", sourceName: "Allatkert info", content: nil, urlToImage: nil, url: nil))
     }
 }
