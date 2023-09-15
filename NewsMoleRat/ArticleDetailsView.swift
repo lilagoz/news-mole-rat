@@ -17,25 +17,7 @@ struct ArticleDetailsView: View {
         VStack {
             ZStack {
                 if let urlToImage = article.urlToImage {
-                    AsyncImage(url: URL(string: urlToImage)) { phase in
-                        if let image = phase.image {
-                            image.resizable()
-                        } else if phase.error != nil {
-                            Rectangle()
-                                .fill(
-                                    LinearGradient(gradient: Gradient(colors: [.red, .white]), startPoint: .top, endPoint: .bottom)
-                                )
-                        } else {
-                            ZStack {
-                                Rectangle()
-                                    .fill(
-                                        LinearGradient(gradient: Gradient(colors: [article.color, .white]), startPoint: .top, endPoint: .bottom)
-                                    )
-                                ProgressView()
-                            }
-                        }
-                    }
-                    .aspectRatio(contentMode: .fit)
+                    ImageView(urlToImage: urlToImage, color: article.color)
                 }
                 else {
                     Rectangle()

@@ -11,28 +11,31 @@ struct CardView: View {
     let article: Article
     
     var body: some View {
-        HStack {
-            VStack {
-                if let title = article.title {
-                    Text(title)
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                        .padding(.bottom, 5.0)
+        ZStack {
+            ImageView(urlToImage: article.urlToImage ?? "", color: article.color).opacity(0.4)
+            HStack {
+                VStack {
+                    if let title = article.title {
+                        Text(title)
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
+                            .padding(.bottom, 5.0)
+                    }
+                    if let description = article.description {
+                        Text(description)
+                            .fontWeight(.light)
+                            .multilineTextAlignment(.leading)
+                    }
+                    if let sourceName = article.source?.name {
+                        Text(sourceName)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .fontWeight(.thin)
+                    }
                 }
-                if let description = article.description {
-                    Text(description)
-                        .fontWeight(.light)
-                        .multilineTextAlignment(.leading)
-                }
-                if let sourceName = article.source?.name {
-                    Text(sourceName)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .fontWeight(.thin)
-                }
+                .padding(.vertical, 10.0)
             }
-            .padding(.vertical, 10.0)
         }
     }
 }

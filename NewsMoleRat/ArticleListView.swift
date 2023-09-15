@@ -54,7 +54,7 @@ struct ArticleListView: View {
                     }
                 }
 //                .task {
-//                    //use only for preview
+//                 //   use only for preview
 //                    await articlesModel.start()
 //                }
                 .background(AngularGradient(gradient: Gradient(colors:[Color.red,Color.green,Color.blue,Color.green,Color.red ]), center: .center).opacity(0.5))
