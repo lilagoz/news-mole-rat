@@ -7,9 +7,13 @@
 
 import Foundation
 
-@MainActor
-final class ArticlesModel: ObservableObject {
-    @Published var articles: [Article]?
+
+@Observable final class ArticlesModel {
+    var articles: [Article]?
+    
+    init(){
+        
+    }
     
     func start() async {
         

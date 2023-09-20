@@ -12,7 +12,9 @@ struct CardView: View {
     
     var body: some View {
         ZStack {
-            ImageView(urlToImage: article.urlToImage ?? "", color: article.color).opacity(0.4)
+            ImageView(urlToImage: article.urlToImage ?? "", color: article.color)
+                .opacity(0.4)
+                .clipShape(RoundedRectangle(cornerRadius: 12.5))
             HStack {
                 VStack {
                     if let title = article.title {

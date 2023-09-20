@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Animal</key>
+	<string>dogcat</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.28404575337-70afu47ngjg5p3hb7acv51b11k6rv63i</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>28404575337-70afu47ngjg5p3hb7acv51b11k6rv63i.apps.googleusercontent.com</string>
+</dict>
+</plist>

@@ -8,15 +8,47 @@
 import SwiftUI
 import GoogleSignIn
 
-class UserAuthModel: ObservableObject {
+@Observable class UserAuthModel {
+    var isLoggedIn: Bool = false
+    var givenName: String = ""
+    var profilePicUrl: String = ""
+    var errorMessage: String = ""
+    private var _profilePic: UIImage?
     
-    @Published var givenName: String = ""
-    @Published var profilePicUrl: String = ""
-    @Published var isLoggedIn: Bool = false
-    @Published var errorMessage: String = ""
+    var profilePic: UIImage {
+        get {
+            if _profilePic != nil {
+                return self._profilePic!
+            } else {
+                return UIImage(systemName: "person")!
+            }
+        }
+        set {
+            _profilePic = newValue
+        }
+    }
     
     init(){
-        check()
+    }
+    
+    private func downloadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            completion(nil)
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(nil)
+                return
+            }
+
+            if let uiImage = UIImage(data: data) {
+                completion(uiImage)
+            } else {
+                completion(nil)
+            }
+        }.resume()
     }
     
     func checkStatus(){
@@ -25,6 +57,17 @@ class UserAuthModel: ObservableObject {
             guard let user = user else { return }
             let givenName = user.profile?.givenName
             let profilePicUrl = user.profile!.imageURL(withDimension: 100)!.absoluteString
+            if self._profilePic == nil {
+                downloadImage(from: profilePicUrl) { uiImage in
+                    guard let uiImage = uiImage else {
+                        print("Failed to download the image.")
+                        return
+                    }
+                    self._profilePic = uiImage
+                }
+            } else {
+                self._profilePic = nil
+            }
             self.givenName = givenName ?? ""
             self.profilePicUrl = profilePicUrl
             self.isLoggedIn = true
@@ -32,40 +75,42 @@ class UserAuthModel: ObservableObject {
             self.isLoggedIn = false
             self.givenName = "Not Logged In"
             self.profilePicUrl =  ""
+            self._profilePic = nil
         }
     }
     
     func check(){
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-            if let error = error {
-                self.errorMessage = "error: \(error.localizedDescription)"
+            if let user = user {
+                print("user: \(String(describing: user))")
             }
-            
+            else if let error = error {
+                self.errorMessage = error.localizedDescription
+                print("error \(String(describing: error))")
+            } 
             self.checkStatus()
         }
     }
     
     func signIn(){
-        print("signIn")
-//
-//       guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {return}
-//
-//        let signInConfig = GIDConfiguration.init(clientID: "CLIENT-ID")
-//        GIDSignIn.sharedInstance.signIn(
-//            with: signInConfig,
-//            presenting: presentingViewController,
-//            callback: { user, error in
-//                if let error = error {
-//                    self.errorMessage = "error: \(error.localizedDescription)"
-//                }
-//
-//                self.checkStatus()
-//            }
-//        )
+        print("sign in")
+        guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {return}
+
+        GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
+            guard let result = signInResult else {
+                // Inspect error
+                return
+            }
+            self.checkStatus()
+            print("signed in")
+        }
+        
     }
     
     func signOut(){
+        print("sign out")
         GIDSignIn.sharedInstance.signOut()
         self.checkStatus()
+        print("signed out")
     }
 }
