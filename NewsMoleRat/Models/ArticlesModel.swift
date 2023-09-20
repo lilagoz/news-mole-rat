@@ -15,9 +15,16 @@ import Foundation
         
     }
     
+    var newApiKey: String {
+        if let newApiKey = Bundle.main.object(forInfoDictionaryKey: "NewApiKey") as? String {
+            return newApiKey
+        }
+        return ""
+    }
+    
     func start() async {
         
-        let url = URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=db725ddeb9364ab7a645c52154d2df28")!
+        let url = URL(string: "https://newsapi.org/v2/top-headlines?country=us&apiKey=\(newApiKey)")!
         
         do{
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -35,7 +42,7 @@ import Foundation
         
         var urlComps = URLComponents(string: "https://newsapi.org/v2/everything")!
         urlComps.queryItems = [
-            URLQueryItem(name: "apiKey", value: "db725ddeb9364ab7a645c52154d2df28"),
+            URLQueryItem(name: "apiKey", value: newApiKey),
             URLQueryItem(name: "sortBy", value: "popularity"),
             URLQueryItem(name: "q", value: searchString),
         ]
