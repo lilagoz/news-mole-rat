@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 @main
 struct NewsMoleRatApp: App {
-    @ObservedObject var articlesModel: ArticlesModel
+    @State var userAuth: UserAuthModel = UserAuthModel()
+    @State var articlesModel = ArticlesModel()
     
     private func load() {
         Task {
@@ -18,14 +20,24 @@ struct NewsMoleRatApp: App {
     }
     
     init() {
-        self.articlesModel = .init()
         load()
     }
     
-    
     var body: some Scene {
         WindowGroup {
-            ArticleListView(articlesModel: articlesModel)
+            NavigationView{
+                ArticleListView(articlesModel: articlesModel)
+            }
+            .onOpenURL { url in
+                print("onOpenURL: \(url)")
+                GIDSignIn.sharedInstance.handle(url)
+            }
+            .onAppear {
+                print("onAppear")
+                userAuth.check()
+            }
+            .environment(userAuth)
+            .navigationViewStyle(.stack)
         }
     }
 }

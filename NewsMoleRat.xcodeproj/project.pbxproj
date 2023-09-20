@@ -20,6 +20,10 @@
 		B3170DAD2AB1EBA2002726C1 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3170DAC2AB1EBA2002726C1 /* SettingsView.swift */; };
 		B3170DAF2AB1F072002726C1 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3170DAE2AB1F072002726C1 /* Config.swift */; };
 		B3809A672AB443D8000ACCDE /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3809A662AB443D8000ACCDE /* ImageView.swift */; };
+		B3D7898A2AB8656F00F6A105 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B3D789892AB8656F00F6A105 /* GoogleSignIn */; };
+		B3D7898C2AB8656F00F6A105 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B3D7898B2AB8656F00F6A105 /* GoogleSignInSwift */; };
+		B3D7898F2AB867D400F6A105 /* UserAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D7898E2AB867D400F6A105 /* UserAuthModel.swift */; };
+		B3DF93DB2AB994FA00E621B6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3DF93DA2AB994FA00E621B6 /* LoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,9 @@
 		B3170DAC2AB1EBA2002726C1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B3170DAE2AB1F072002726C1 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		B3809A662AB443D8000ACCDE /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		B3D7898D2AB865D200F6A105 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B3D7898E2AB867D400F6A105 /* UserAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthModel.swift; sourceTree = "<group>"; usesTabs = 0; wrapsLines = 1; };
+		B3DF93DA2AB994FA00E621B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3D7898A2AB8656F00F6A105 /* GoogleSignIn in Frameworks */,
+				B3D7898C2AB8656F00F6A105 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,15 +79,17 @@
 		B3170D8E2AB066F2002726C1 /* NewsMoleRat */ = {
 			isa = PBXGroup;
 			children = (
-				B3170D9F2AB070E8002726C1 /* Models */,
-				B3170D8F2AB066F2002726C1 /* NewsMoleRatApp.swift */,
-				B3170D912AB066F2002726C1 /* ArticleListView.swift */,
-				B3170DAC2AB1EBA2002726C1 /* SettingsView.swift */,
+				B3D7898D2AB865D200F6A105 /* Info.plist */,
 				B3170DA22AB07699002726C1 /* ArticleDetailsView.swift */,
+				B3170D912AB066F2002726C1 /* ArticleListView.swift */,
 				B3170D9D2AB06D4A002726C1 /* CardView.swift */,
+				B3DF93DA2AB994FA00E621B6 /* LoginView.swift */,
+				B3170D8F2AB066F2002726C1 /* NewsMoleRatApp.swift */,
+				B3170DAC2AB1EBA2002726C1 /* SettingsView.swift */,
 				B3170D932AB066F4002726C1 /* Assets.xcassets */,
+				B3170D9F2AB070E8002726C1 /* Models */,
 				B3170D952AB066F4002726C1 /* Preview Content */,
-				B3809A662AB443D8000ACCDE /* ImageView.swift */,
+				B3E66ABE2ABAE30500C1810E /* Shared */,
 			);
 			path = NewsMoleRat;
 			sourceTree = "<group>";
@@ -98,8 +109,17 @@
 				B3170DA42AB095F9002726C1 /* NewsApiResponse.swift */,
 				B3170DA62AB0B27A002726C1 /* ArticlesModel.swift */,
 				B3170DAE2AB1F072002726C1 /* Config.swift */,
+				B3D7898E2AB867D400F6A105 /* UserAuthModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		B3E66ABE2ABAE30500C1810E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B3809A662AB443D8000ACCDE /* ImageView.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,6 +138,10 @@
 			dependencies = (
 			);
 			name = NewsMoleRat;
+			packageProductDependencies = (
+				B3D789892AB8656F00F6A105 /* GoogleSignIn */,
+				B3D7898B2AB8656F00F6A105 /* GoogleSignInSwift */,
+			);
 			productName = NewsMoleRat;
 			productReference = B3170D8C2AB066F2002726C1 /* NewsMoleRat.app */;
 			productType = "com.apple.product-type.application";
@@ -146,6 +170,9 @@
 				Base,
 			);
 			mainGroup = B3170D832AB066F2002726C1;
+			packageReferences = (
+				B3D789882AB8656F00F6A105 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			productRefGroup = B3170D8D2AB066F2002726C1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -177,7 +204,9 @@
 				B3170D922AB066F2002726C1 /* ArticleListView.swift in Sources */,
 				B3170D9E2AB06D4A002726C1 /* CardView.swift in Sources */,
 				B3170DAF2AB1F072002726C1 /* Config.swift in Sources */,
+				B3D7898F2AB867D400F6A105 /* UserAuthModel.swift in Sources */,
 				B3170DAD2AB1EBA2002726C1 /* SettingsView.swift in Sources */,
+				B3DF93DB2AB994FA00E621B6 /* LoginView.swift in Sources */,
 				B3170DA12AB070F6002726C1 /* Article.swift in Sources */,
 				B3170DA72AB0B27A002726C1 /* ArticlesModel.swift in Sources */,
 				B3170D902AB066F2002726C1 /* NewsMoleRatApp.swift in Sources */,
@@ -314,12 +343,14 @@
 				DEVELOPMENT_TEAM = XB9A8PN857;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsMoleRat/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -344,12 +375,14 @@
 				DEVELOPMENT_TEAM = XB9A8PN857;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NewsMoleRat/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.news";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -385,6 +418,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B3D789882AB8656F00F6A105 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B3D789892AB8656F00F6A105 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3D789882AB8656F00F6A105 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		B3D7898B2AB8656F00F6A105 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3D789882AB8656F00F6A105 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B3170D842AB066F2002726C1 /* Project object */;
 }

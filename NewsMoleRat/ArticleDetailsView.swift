@@ -10,9 +10,7 @@ import SwiftUI
 struct ArticleDetailsView: View {
     let article: Article
     var imageView: UIImageView!
-    
-
-    
+        
     var body: some View {
         VStack {
             ZStack {
