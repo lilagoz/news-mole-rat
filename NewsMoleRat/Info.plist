@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NewApiKey</key>
+	<string>db725ddeb9364ab7a645c52154d2df28</string>
 	<key>Animal</key>
 	<string>dogcat</string>
 	<key>CFBundleURLTypes</key>
