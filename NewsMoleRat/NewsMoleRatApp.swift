@@ -10,17 +10,12 @@ import GoogleSignIn
 
 @main
 struct NewsMoleRatApp: App {
+    @State var config = ConfigManager()
     @State var userAuth: UserAuthModel = UserAuthModel()
     @State var articlesModel = ArticlesModel()
     
-    private func load() {
-        Task {
-            await articlesModel.start()
-        }
-    }
-    
     init() {
-        load()
+        
     }
     
     var body: some Scene {
@@ -37,7 +32,13 @@ struct NewsMoleRatApp: App {
                 userAuth.check()
             }
             .environment(userAuth)
+            .environmentObject(config)
             .navigationViewStyle(.stack)
+            .task {
+                await config.load()
+                await articlesModel.start()
+            }
         }
+        
     }
 }
