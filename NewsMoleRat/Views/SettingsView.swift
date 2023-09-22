@@ -42,7 +42,6 @@ struct SettingsView: View {
                 
                 
                 Section {
-//                    TextField("Eye color", text: $cm.config.eyeColor)
                     Picker("Eye color", selection: $cm.config.eyeColor) {
                         ForEach(EyeColor.allCases) { eyeColor in
                             Text(String(describing: eyeColor)).tag(eyeColor)
@@ -79,10 +78,13 @@ struct SettingsView: View {
 
 //struct SettingsView_Previews: PreviewProvider {
 //    static var previews: some View {
+//        @State var config = ConfigManager()
 //        SettingsView()
+//            .environmentObject(config)
 //    }
 //}
 /// This is an easier way to create a preview
-//#Preview {
-//    SettingsView()
-//}
+#Preview {
+    SettingsView()
+        .environmentObject(ConfigManager())
+}

@@ -105,8 +105,10 @@ struct ArticleListView: View {
     }
 }
 
-//struct ArticleListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ArticleListView(articlesModel: .init())
-//    }
-//}
+struct ArticleListView_Previews: PreviewProvider {
+    static var previews: some View {
+        @State var userAuth: UserAuthModel = UserAuthModel()
+        ArticleListView(articlesModel: .init())
+            .environment(userAuth)
+    }
+}
