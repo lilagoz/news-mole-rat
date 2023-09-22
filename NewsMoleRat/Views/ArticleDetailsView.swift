@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ArticleDetailsView: View {
+    @State private var showShareSheet = false
+    
     let article: Article
     var imageView: UIImageView!
         
@@ -57,17 +59,29 @@ struct ArticleDetailsView: View {
                             
                         }
                     }
+
                     Spacer()
                 }.padding()
             }
-        }.ignoresSafeArea()
+        }
+        .ignoresSafeArea()
+        .toolbar {
+            if let url = article.url {
+                Button(action: {showShareSheet = true} ) {
+                    Image(systemName: "square.and.arrow.up")
+                }.shadow(color: Color.white, radius: 5)
+                    .sheet(isPresented: $showShareSheet) {
+                        ActivityViewController(activityItems: [url])
+                    }
+            }
+        }
     }
 }
 
 struct ArticleDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: nil, url: "https://mokuscickany.hu"))
+            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png?itok=aNfQb4Fz", url: "https://mokuscickany.hu"))
         }
     }
 }
