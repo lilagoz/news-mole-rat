@@ -50,6 +50,9 @@ struct ArticleListView: View {
                     
                 }
                 .toolbar {
+                    NavigationLink(destination: NotificationView()) {
+                        Image(systemName: "bubble.left.and.bubble.right")
+                    }
                     NavigationLink(destination: SettingsView()) {
                         Image(systemName: "gearshape")
                     }
