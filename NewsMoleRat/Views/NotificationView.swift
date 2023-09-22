@@ -28,7 +28,7 @@ struct NotificationView: View {
                 content.sound = UNNotificationSound.default
 
                 // show this notification five seconds from now
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4567, repeats: false)
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
 
                 // choose a random identifier
                 let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
