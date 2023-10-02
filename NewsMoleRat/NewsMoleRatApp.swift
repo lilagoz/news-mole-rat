@@ -12,17 +12,22 @@ import FirebaseCore
 import FirebaseAppCheck
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    
-      /// Product -> Scheme -> Run -> Arguments passed on launch -> -FIRDebugEnabled
-      ///  and `Firebase App Check debug token:`
-//    let providerFactory = AppCheckDebugProviderFactory()
-//    AppCheck.setAppCheckProviderFactory(providerFactory)
-
-    FirebaseApp.configure()
-    return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        /// Product -> Scheme -> Run -> Arguments passed on launch -> -FIRDebugEnabled
+        ///  and `Firebase App Check debug token:`
+        //    let providerFactory = AppCheckDebugProviderFactory()
+        //    AppCheck.setAppCheckProviderFactory(providerFactory)
+        
+        FirebaseApp.configure()
+        return true
+    }
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return GIDSignIn.sharedInstance.handle(url)
+    }
 }
 
 @main
@@ -48,10 +53,10 @@ struct NewsMoleRatApp: App {
             NavigationView{
                 ArticleListView()
             }
-            .onOpenURL { url in
-                print("onOpenURL: \(url)")
-                GIDSignIn.sharedInstance.handle(url)
-            }
+//            .onOpenURL { url in
+//                print("onOpenURL: \(url)")
+//                GIDSignIn.sharedInstance.handle(url)
+//            }
             .onAppear {
                 print("onAppear")
                 userAuth.check()
@@ -78,13 +83,13 @@ struct NewsMoleRatApp: App {
                 content.title = "The mole rat miss you."
                 content.subtitle = "Aren't you interested in what happened?"
                 content.sound = UNNotificationSound.default
-
+                
                 // show this notification five seconds from now
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4567, repeats: false)
-
+                
                 // choose a random identifier
                 let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-
+                
                 // add our notification request
                 UNUserNotificationCenter.current().add(request)
                 UNUserNotificationCenter.current().setBadgeCount(0)

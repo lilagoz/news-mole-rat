@@ -115,6 +115,12 @@ import FirebaseAuth
     func signIn(){
         print("sign in")
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {return}
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+
+        // Create Google Sign In configuration object.
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+    
 
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
             guard error == nil, let user = signInResult?.user else {
@@ -124,13 +130,18 @@ import FirebaseAuth
             
             self.afterLogin(user: user)
         }
-        
     }
     
     func signOut(){
         print("sign out")
-        GIDSignIn.sharedInstance.signOut()
-        self.checkStatus()
-        print("signed out")
+        do {
+            try Auth.auth().signOut()
+            GIDSignIn.sharedInstance.signOut()
+            self.checkStatus()
+            print("signed out")
+        }
+        catch let signOutError as NSError {
+          print("Error signing out: %@", signOutError)
+        }
     }
 }
