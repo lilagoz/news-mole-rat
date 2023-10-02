@@ -33,7 +33,7 @@ struct AdminListArticlesView: View {
         }
         .onAppear() {
             print("AdminListArticlesView onAppear")
-            FireStoreController.getArticles()
+            FireBaseController.getArticles()
         }
     }
 }

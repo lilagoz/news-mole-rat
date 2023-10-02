@@ -24,7 +24,7 @@ struct ArticleListView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12.5))
                             .frame(height:40)
                             .onSubmit {
-                                FireStoreController.getArticles()
+                                FireBaseController.getArticles()
                             }
                     }
                     .padding(.horizontal, 10)
@@ -85,7 +85,7 @@ struct ArticleListView: View {
             }
         }
         .onAppear {
-            FireStoreController.getArticles(count: 10)
+            FireBaseController.getArticles(count: 10)
         }
     }
 }

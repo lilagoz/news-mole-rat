@@ -6,37 +6,61 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct AdminArticleDetailsView: View {
     @Environment(\.dismiss) private var dismiss
-    private let db = FireStoreController()
-    
+    private let db = FireBaseController()
+    //@ObservedObject var viewModel: AdminArticleModel
+    @StateObject var viewModel: AdminArticleModel
     var article: Article
-    @State var title:String
-    @State var description:String
-    @State var content:String
     
     init(article: Article) {
         self.article = article
-        _title = State(initialValue: article.title)
-        _description = State(initialValue: article.description)
-        _content = State(initialValue: article.content)
+        self._viewModel = StateObject(wrappedValue: AdminArticleModel(article: article))
     }
-
+    
     var body: some View {
         NavigationStack {
             Form {
                 Section("Title") {
-                    TextField("Title", text: $title, axis: .vertical)
+                    TextField("Title", text: $viewModel.title, axis: .vertical)
                 }
                 
                 Section("Description") {
-                    TextField("Description", text: $description, axis: .vertical)
+                    TextField("Description", text: $viewModel.description, axis: .vertical)
                 }
                 
                 Section("Content") {
-                    TextField("Content", text: $content, axis: .vertical)
+                    TextField("Content", text: $viewModel.content, axis: .vertical)
                 }
+                
+                Section("URL") {
+                    TextField("URL", text: $viewModel.url)
+                }
+                
+                Section("Image") {
+                    PhotosPicker(selection: $viewModel.imageSelection,
+                                 matching: .images,
+                                 photoLibrary: .shared()) {
+                        Text("Image")
+                    }
+                    if !viewModel.urlToImage.isEmpty {
+                        ImageView(urlToImage: viewModel.urlToImage, color: Color.purple)
+                    } else {
+                        switch viewModel.imageState {
+                        case .success(let image):
+                            image.resizable().scaledToFit()
+                        case .empty:
+                            Text("Empty")
+                        case .loading(_):
+                            ProgressView()
+                        case .failure(_):
+                            Text("Something went wrong")
+                        }
+                    }
+                }
+                
             }
             .navigationTitle("\(article.id)")
             .toolbar {
@@ -48,18 +72,26 @@ struct AdminArticleDetailsView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
-                        print("ok")
-                        let modified = Article(id: article.id, title: title, description: description, content: content )
+                        Task {
+                            
+                            if case .success(_) = viewModel.imageState {
+                                if let jpg = viewModel.uiImage?.jpegData(compressionQuality: 0.85) {
+                                    let urlToImage = try await FireBaseController.upload(data: jpg)
+                                    viewModel.urlToImage = urlToImage.absoluteString
+                                }
+                            }
+                            
+                            let modified = Article(id: article.id, title: viewModel.title, description: viewModel.description, content: viewModel.content,url: viewModel.url, urlToImage: viewModel.urlToImage )
                         
-                        FireStoreController.save(article: modified)
+                            FireBaseController.save(article: modified)
+                            
+                            dismiss()
+                        }
                         
-                        dismiss()
                     }
                 }
             }
-            
         }
-        
     }
 }
 

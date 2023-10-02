@@ -28,6 +28,7 @@
 		B3189A632ABDBAD300439787 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3189A622ABDBAD300439787 /* ActivityViewController.swift */; };
 		B3189A652ABDC53300439787 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3189A642ABDC53300439787 /* NotificationView.swift */; };
 		B3809A672AB443D8000ACCDE /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3809A662AB443D8000ACCDE /* ImageView.swift */; };
+		B3A82ED72ACAB983006CCCA3 /* AdminArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A82ED62ACAB983006CCCA3 /* AdminArticleModel.swift */; };
 		B3D7898A2AB8656F00F6A105 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B3D789892AB8656F00F6A105 /* GoogleSignIn */; };
 		B3D7898C2AB8656F00F6A105 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B3D7898B2AB8656F00F6A105 /* GoogleSignInSwift */; };
 		B3D7898F2AB867D400F6A105 /* UserAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D7898E2AB867D400F6A105 /* UserAuthModel.swift */; };
@@ -61,7 +62,7 @@
 		B3E22EF22AC1942100EF432D /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B3E22EF12AC1942100EF432D /* FirebaseRemoteConfigSwift */; };
 		B3E22EF42AC1942100EF432D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B3E22EF32AC1942100EF432D /* FirebaseStorage */; };
 		B3E22EF62AC1942100EF432D /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = B3E22EF52AC1942100EF432D /* FirebaseStorageCombine-Community */; };
-		B3E22EF82AC1968600EF432D /* FireStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E22EF72AC1968600EF432D /* FireStoreController.swift */; };
+		B3E22EF82AC1968600EF432D /* FireBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E22EF72AC1968600EF432D /* FireBaseController.swift */; };
 		B3E22EFA2AC1981A00EF432D /* AdminListArticlesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E22EF92AC1981A00EF432D /* AdminListArticlesView.swift */; };
 		B3FA004C2AC4118D00918AEC /* FireArticle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA004B2AC4118D00918AEC /* FireArticle.swift */; };
 		B3FA004E2AC425F100918AEC /* AdminArticleDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FA004D2AC425F100918AEC /* AdminArticleDetailsView.swift */; };
@@ -90,12 +91,13 @@
 		B3189A622ABDBAD300439787 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		B3189A642ABDC53300439787 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B3809A662AB443D8000ACCDE /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		B3A82ED62ACAB983006CCCA3 /* AdminArticleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminArticleModel.swift; sourceTree = "<group>"; };
 		B3D7898D2AB865D200F6A105 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B3D7898E2AB867D400F6A105 /* UserAuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAuthModel.swift; sourceTree = "<group>"; usesTabs = 0; wrapsLines = 1; };
 		B3DF93DA2AB994FA00E621B6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		B3E22EBC2AC188A700EF432D /* AuthenticationMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationMenuView.swift; sourceTree = "<group>"; };
 		B3E22EBE2AC1936400EF432D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		B3E22EF72AC1968600EF432D /* FireStoreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreController.swift; sourceTree = "<group>"; };
+		B3E22EF72AC1968600EF432D /* FireBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireBaseController.swift; sourceTree = "<group>"; };
 		B3E22EF92AC1981A00EF432D /* AdminListArticlesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminListArticlesView.swift; sourceTree = "<group>"; };
 		B3FA004B2AC4118D00918AEC /* FireArticle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireArticle.swift; sourceTree = "<group>"; };
 		B3FA004D2AC425F100918AEC /* AdminArticleDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminArticleDetailsView.swift; sourceTree = "<group>"; };
@@ -216,7 +218,7 @@
 			children = (
 				B3809A662AB443D8000ACCDE /* ImageView.swift */,
 				B3189A622ABDBAD300439787 /* ActivityViewController.swift */,
-				B3E22EF72AC1968600EF432D /* FireStoreController.swift */,
+				B3E22EF72AC1968600EF432D /* FireBaseController.swift */,
 				B310CC5D2AC597250030CCE5 /* AlgoliaController.swift */,
 			);
 			path = Shared;
@@ -228,6 +230,7 @@
 				B3E22EF92AC1981A00EF432D /* AdminListArticlesView.swift */,
 				B3FA004D2AC425F100918AEC /* AdminArticleDetailsView.swift */,
 				B3FA004F2AC47C9600918AEC /* AdminFooBar.swift */,
+				B3A82ED62ACAB983006CCCA3 /* AdminArticleModel.swift */,
 			);
 			path = Admin;
 			sourceTree = "<group>";
@@ -383,8 +386,9 @@
 				B3D7898F2AB867D400F6A105 /* UserAuthModel.swift in Sources */,
 				B3E22EFA2AC1981A00EF432D /* AdminListArticlesView.swift in Sources */,
 				B3170DAD2AB1EBA2002726C1 /* SettingsView.swift in Sources */,
+				B3A82ED72ACAB983006CCCA3 /* AdminArticleModel.swift in Sources */,
 				B3189A5D2ABC64E000439787 /* ConfigModel.swift in Sources */,
-				B3E22EF82AC1968600EF432D /* FireStoreController.swift in Sources */,
+				B3E22EF82AC1968600EF432D /* FireBaseController.swift in Sources */,
 				B310CC592AC55F6C0030CCE5 /* ArticlesObservable.swift in Sources */,
 				B3DF93DB2AB994FA00E621B6 /* LoginView.swift in Sources */,
 				B3170DA12AB070F6002726C1 /* Article.swift in Sources */,

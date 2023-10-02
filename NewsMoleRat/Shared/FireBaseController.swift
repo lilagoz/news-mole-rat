@@ -7,8 +7,11 @@
 
 import SwiftUI
 import FirebaseFirestore
+import FirebaseCore
+import FirebaseAuth
+import FirebaseStorage
 
-struct FireStoreController {
+struct FireBaseController {
     
     //    let db = Firestore.firestore()
     
@@ -141,6 +144,63 @@ struct FireStoreController {
             ArticlesObservable.share.articles = foundArticles
         }
         catch {}
+    }
+    
+    // MARK: - Store
+    
+    enum UploadError : Error {
+        case putDataError(Error)
+        case metadataMissing
+        case downloadURLError(Error)
+        case urlMissing
+    }
+    
+    static func upload(data: Data, completion: @escaping (Result<URL, UploadError>) -> Void ) {
+        DispatchQueue.global().async {
+            let storage = Storage.storage()
+            
+            // Create a root reference
+            let storageRef = storage.reference()
+            
+            
+            // Create a reference to the file you want to upload
+            let filename = UUID().uuidString
+            let riversRef = storageRef.child("images/\(filename).jpg")
+            
+            // Upload the file to the path "images/uuid.jpg"
+            let _ = riversRef.putData(data, metadata: nil) { (metadata, error) in
+                if let error = error {
+                    completion(.failure(.putDataError(error)))
+                }
+                guard let metadata = metadata else {
+                    // Uh-oh, an error occurred!
+                    completion(.failure(.metadataMissing))
+                    return
+                }
+//                 Metadata contains file metadata such as size, content-type.
+//                let size = metadata.size
+                // You can also access to download URL after upload.
+                riversRef.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(.failure(.downloadURLError(error)))
+                    }
+                    guard let downloadURL = url else {
+                        // Uh-oh, an error occurred!
+                        completion(.failure(.urlMissing))
+                        return
+                    }
+                    completion(.success(downloadURL))
+                }
+            }
+        }
+    }
+    
+    static func upload(data: Data) async throws -> URL {
+        return try await withCheckedThrowingContinuation { continuation in
+            upload(data: data) { result in
+                continuation.resume(with: result)
+            }
+        }
     }
     
     

@@ -62,7 +62,7 @@ struct NewsMoleRatApp: App {
             .navigationViewStyle(.stack)
             .task {
                 await config.load()
-                FireStoreController.getArticles(count: 10)
+                FireBaseController.getArticles(count: 10)
             }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
