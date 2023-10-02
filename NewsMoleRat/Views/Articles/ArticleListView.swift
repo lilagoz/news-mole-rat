@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ArticleListView: View {
     @Environment(UserAuthModel.self) private var userAuth
-    @State var searchString: String = ""
-    @State var articlesModel: ArticlesModel
+    @EnvironmentObject var articlesStore: ArticlesObservable
+    
     @State private var animateGradient: Bool = true
     
     var body: some View {
@@ -18,21 +18,19 @@ struct ArticleListView: View {
             NavigationStack{
                 VStack{
                     HStack {
-                        TextField("Search...", text: $searchString)
+                        TextField("Search...", text: $articlesStore.searchString)
                             .padding(5.0)
                             .background(Color.white.opacity(0.7))
                             .clipShape(RoundedRectangle(cornerRadius: 12.5))
                             .frame(height:40)
                             .onSubmit {
-                                Task{
-                                    await articlesModel.search(searchString:  searchString)
-                                }
+                                FireBaseController.getArticles()
                             }
                     }
                     .padding(.horizontal, 10)
                     
-                    if let articles = articlesModel.articles {
-                        List(articles, id: \.id) { article in
+                    if let articles = articlesStore.articles {
+                        List(articles) { article in
                             NavigationLink(destination: ArticleDetailsView(article: article)) {
                                 CardView(article: article)
                                     .padding(10)
@@ -50,29 +48,10 @@ struct ArticleListView: View {
                     
                 }
                 .toolbar {
-                    NavigationLink(destination: NotificationView()) {
-                        Image(systemName: "bubble.left.and.bubble.right")
-                    }
-                    NavigationLink(destination: SettingsView()) {
-                        Image(systemName: "gearshape")
-                    }
-                    NavigationLink(destination: LoginView()) {
-                        if userAuth.isLoggedIn {
-                            Image(uiImage: userAuth.profilePic)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 25, height: 25)
-                                .clipShape(RoundedRectangle(cornerRadius: 12.5))
-                        } else {
-                            Image(systemName: "person")
-                        }
+                    ToolbarItem {
+                        AuthenticationMenuView()
                     }
                 }
-                
-//                .task {
-//                 //   use only for preview
-//                    await articlesModel.start()
-//                }
                 .background(
                     ZStack {
 
@@ -105,13 +84,16 @@ struct ArticleListView: View {
                 )
             }
         }
+        .onAppear {
+            FireBaseController.getArticles(count: 10)
+        }
     }
 }
 
 struct ArticleListView_Previews: PreviewProvider {
     static var previews: some View {
         @State var userAuth: UserAuthModel = UserAuthModel()
-        ArticleListView(articlesModel: .init())
+        ArticleListView()
             .environment(userAuth)
     }
 }

@@ -7,6 +7,9 @@
 
 import SwiftUI
 import GoogleSignIn
+import FirebaseCore
+import FirebaseAuth
+
 
 @Observable class UserAuthModel {
     var isLoggedIn: Bool = false
@@ -30,6 +33,9 @@ import GoogleSignIn
     
     init(){
     }
+    init(isLoggedIn: Bool) {
+        self.isLoggedIn = isLoggedIn
+    }
     
     private func downloadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = URL(string: urlString) else {
@@ -52,7 +58,7 @@ import GoogleSignIn
     }
     
     func checkStatus(){
-        if(GIDSignIn.sharedInstance.currentUser != nil){
+        if(GIDSignIn.sharedInstance.currentUser != nil && Auth.auth().currentUser != nil ){
             let user = GIDSignIn.sharedInstance.currentUser
             guard let user = user else { return }
             let givenName = user.profile?.givenName
@@ -79,16 +85,30 @@ import GoogleSignIn
         }
     }
     
+    private func afterLogin (user: GIDGoogleUser) {
+        if let idToken = user.idToken?.tokenString {
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: user.accessToken.tokenString)
+            Auth.auth().signIn(with: credential) { result, error in
+                guard error == nil else {
+                    print("authauth failed \(String(describing: error?.localizedDescription))")
+                    return
+                }
+                self.checkStatus()
+            }
+        }
+    }
+    
     func check(){
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if let user = user {
                 print("user: \(String(describing: user))")
+                self.afterLogin(user: user)
             }
             else if let error = error {
                 self.errorMessage = error.localizedDescription
                 print("error \(String(describing: error))")
-            } 
-            self.checkStatus()
+            }
         }
     }
     
@@ -97,12 +117,12 @@ import GoogleSignIn
         guard let presentingViewController = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController else {return}
 
         GIDSignIn.sharedInstance.signIn(withPresenting: presentingViewController) { signInResult, error in
-            guard let result = signInResult else {
-                // Inspect error
+            guard error == nil, let user = signInResult?.user else {
+                print("sign in error \(String(describing: error?.localizedDescription))")
                 return
             }
-            self.checkStatus()
-            print("signed in")
+            
+            self.afterLogin(user: user)
         }
         
     }

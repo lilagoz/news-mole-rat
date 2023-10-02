@@ -8,13 +8,30 @@
 import SwiftUI
 import GoogleSignIn
 import UserNotifications
+import FirebaseCore
+import FirebaseAppCheck
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    
+      /// Product -> Scheme -> Run -> Arguments passed on launch -> -FIRDebugEnabled
+      ///  and `Firebase App Check debug token:`
+//    let providerFactory = AppCheckDebugProviderFactory()
+//    AppCheck.setAppCheckProviderFactory(providerFactory)
+
+    FirebaseApp.configure()
+    return true
+  }
+}
 
 @main
 struct NewsMoleRatApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @Environment(\.scenePhase) var scenePhase
-    @State var config = ConfigManager()
-    @State var userAuth: UserAuthModel = UserAuthModel()
-    @State var articlesModel = ArticlesModel()
+    @State var userAuth: UserAuthModel = UserAuthModel() //@Observable
+    @State var config = ConfigManager() // ObservableObject
+    @StateObject var articlesStore = ArticlesObservable.share
     
     init() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
@@ -29,7 +46,7 @@ struct NewsMoleRatApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationView{
-                ArticleListView(articlesModel: articlesModel)
+                ArticleListView()
             }
             .onOpenURL { url in
                 print("onOpenURL: \(url)")
@@ -39,12 +56,13 @@ struct NewsMoleRatApp: App {
                 print("onAppear")
                 userAuth.check()
             }
-            .environment(userAuth)
-            .environmentObject(config)
+            .environment(userAuth) // @Observable
+            .environmentObject(config) // ObservableObject
+            .environmentObject(articlesStore) // ObservableObject
             .navigationViewStyle(.stack)
             .task {
                 await config.load()
-                await articlesModel.start()
+                FireBaseController.getArticles(count: 10)
             }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
@@ -73,7 +91,4 @@ struct NewsMoleRatApp: App {
             }
         }
     }
-    
-    
-    
 }
