@@ -12,12 +12,12 @@ struct ArticleDetailsView: View {
     
     let article: Article
     var imageView: UIImageView!
-        
+    
     var body: some View {
         VStack {
             ZStack {
-                if let urlToImage = article.urlToImage {
-                    ImageView(urlToImage: urlToImage, color: article.color)
+                if !article.urlToImage.isEmpty {
+                    ImageView(urlToImage: article.urlToImage, color: article.color)
                 }
                 else {
                     Rectangle()
@@ -25,33 +25,31 @@ struct ArticleDetailsView: View {
                             LinearGradient(gradient: Gradient(colors: [article.color, .white]), startPoint: .top, endPoint: .bottom)
                         ).aspectRatio(contentMode: .fit)
                 }
-                if let title = article.title {
-                    Text(title)
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color.white)
-                        .shadow(color: Color.black, radius: 10)
-                }
+                Text(article.title)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color.white)
+                    .shadow(color: Color.black, radius: 10)
             }
             ZStack {
                 Rectangle()
                     .fill(LinearGradient(gradient: Gradient(colors: [.white, article.color]), startPoint: .top, endPoint: .bottom)).opacity(0.5)
                 VStack{
-                    HStack {
-                        Text(article.source?.name ?? "")
-                            .fontWeight(.thin)
-                        Spacer()
-                        Text(article.publishedAt ?? "")
-                            .fontWeight(.thin)
-                    }.padding(.bottom, 5)
+                    //                    HStack {
+                    //                        Text(article.source?.name ?? "")
+                    //                            .fontWeight(.thin)
+                    //                        Spacer()
+                    //                        Text(article.publishedAt ?? "")
+                    //                            .fontWeight(.thin)
+                    //                    }.padding(.bottom, 5)
                     
-                    
-                    Text(article.content ?? article.description ?? "")
+                    let content = !article.content.isEmpty ? article.content : article.description
+                    Text(content)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 50)
                     
-                    if let url = article.url {
-                        Link(destination: URL(string: url)!) {
+                    if !article.url.isEmpty {
+                        Link(destination: URL(string: article.url)!) {
                             Image(systemName: "safari")
                                 .resizable()
                                 .frame(width: 30, height: 30)
@@ -59,19 +57,19 @@ struct ArticleDetailsView: View {
                             
                         }
                     }
-
+                    
                     Spacer()
                 }.padding()
             }
         }
         .ignoresSafeArea()
         .toolbar {
-            if let url = article.url {
+            if !article.url.isEmpty {
                 Button(action: {showShareSheet = true} ) {
                     Image(systemName: "square.and.arrow.up")
                 }.shadow(color: Color.white, radius: 5)
                     .sheet(isPresented: $showShareSheet) {
-                        ActivityViewController(activityItems: [url])
+                        ActivityViewController(activityItems: [article.url])
                     }
             }
         }
@@ -81,7 +79,7 @@ struct ArticleDetailsView: View {
 struct ArticleDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
-            ArticleDetailsView(article: Article(title: "Macska kutya denevér", description: nil, sourceName: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png?itok=aNfQb4Fz", url: "https://mokuscickany.hu"))
+            ArticleDetailsView(article: Article(id:"foo", title: "Macska kutya denevér", description: nil, content: "Kutyat es macskat es denevert fogtak a tavoli varosban, a rendorok megkezdtek az eljaras lefolytatasat a muveleti teruleten", url: "https://mokuscickany.hu", urlToImage: "https://www.akronzoo.org/sites/default/files/styles/uncropped_xl/public/2022-05/Naked-mole-rat-main.png?itok=aNfQb4Fz"))
         }
     }
 }
